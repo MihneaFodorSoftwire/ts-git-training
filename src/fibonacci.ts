@@ -1,17 +1,13 @@
-export const computeFibonacciNumber = (position: number | null, recursion: boolean = false, isRecursive: boolean = false): number => {
+export const computeFibonacciNumber = (position: number | null, recursion: boolean = false): number => {
     let notNullPosition = position;
     if (notNullPosition === null) {
         notNullPosition = 1;
     }
 
-    if (recursion) {
-        return recursiveFibonacci(1, 1, position - 2);
-    }
+    if (recursion) return recursiveNegativeFibonacci(position);
 
-    if (isRecursive) return recursiveFibonacci(position);
-
-    let i = 1;
-    let j = 1;
+    let smallFibonacciNumber = 1;
+    let largeFibonacciNumber = 1;
 
     if (position === 0) {
         return 0;
@@ -26,22 +22,22 @@ export const computeFibonacciNumber = (position: number | null, recursion: boole
 
     let currentPosition = 2;
     while (currentPosition < position) {
-        const temp = i;
-        i = j;
-        j += temp;
+        const temp = smallFibonacciNumber;
+        smallFibonacciNumber = largeFibonacciNumber;
+        largeFibonacciNumber += temp;
         currentPosition++;
     }
-    return j;
+    return largeFibonacciNumber;
 };
 
-const recursiveFibonacci = (initialPosition: number, left: number = 0, right: number = 1, position?: number): number => {
+const recursiveNegativeFibonacci = (initialPosition: number, left: number = 0, right: number = 1, position?: number): number => {
     const currentPosition = position ?? initialPosition;
     if (initialPosition === 0) return 0;
     if (currentPosition === 0) return left;
     if (initialPosition > 0) {
-        return recursiveFibonacci(initialPosition, right, left + right, currentPosition - 1);
+        return recursiveNegativeFibonacci(initialPosition, right, left + right, currentPosition - 1);
     } else {
-        return recursiveFibonacci(initialPosition, right - left, left, currentPosition + 1);
+        return recursiveNegativeFibonacci(initialPosition, right - left, left, currentPosition + 1);
     }
 }
 
